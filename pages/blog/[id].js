@@ -4,19 +4,17 @@ import styles from '../../styles/Home.module.scss';
 export default function BlogId({ blog }) {
 
 console.log('↓');
-console.log(blog.contents[0].body);
 console.log(JSON.stringify(blog,null,'\t'));
 console.log('↑');
 
   return (
     <main className={styles.main}>
-{/*      <h1 className={styles.title}>{blog.title}</h1>  */}
-      <h1 className={styles.title}>{blog.contents[0].title}</h1>
-{/*      <p className={styles.publishedAt}>{blog.publishedAt}</p>  */}
-      <p className={styles.publishedAt}>{blog.contents[0].publishedAt}</p>
+      <h1 className={styles.title}>{blog.title}</h1>
+      <p className={styles.publishedAt}>{blog.publishedAt}</p>
+      <p className="category">{blog.category && `${blog.category.name}`}</p>
       <div
         dangerouslySetInnerHTML={{
-          __html: `${blog.contents[0].body}`,
+          __html: `${blog.body}`,
         }}
         className={styles.post}
       />
@@ -28,7 +26,7 @@ console.log('↑');
 export const getStaticPaths = async () => {
   const data = await client.get({ endpoint: "blog" });
 
-  const paths = data.contents.map((content) => `/blog/xl2rzz5ubrf9`);
+  const paths = data.contents.map((content) => `/blog/${content.id}`);
   return { paths, fallback: false };
 };
 
